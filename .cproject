@@ -12,8 +12,9 @@
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 	<storageModule moduleId="org.eclipse.cdt.core.pathentry">
-		<pathentry excluding="MyLcd/" kind="src" path=""/>
+		<pathentry excluding="TempAndLight/|libraries/MyLcd|MyLcd/" kind="src" path=""/>
+		<pathentry excluding="TempAndLight" kind="src" path="MyLcd"/>
+		<pathentry kind="src" path="TempAndLight"/>
 		<pathentry kind="out" path=""/>
-		<pathentry kind="src" path="MyLcd"/>
 	</storageModule>
 </cproject>

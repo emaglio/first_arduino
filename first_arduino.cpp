@@ -1,29 +1,35 @@
 #include <Arduino.h>
+#include "/first_arduino/TempAndLight/TempAndLight.h"
+#include "/Arduino/libraries/LiquidCrystal/src/LiquidCrystal.h"
 
-int pinLight = 1; //photoresistor
-int lightClock = 0; //light in clock
-float lightVal = 0; //result from photoresistor
-int pintTemp = 0; //temp sensor
-float tempVal = 0; //result from temp sensor
+float tempVal;
+float lightVal;
 
+TempAndLight sensors(1,0);
+LiquidCrystal lcd(13, 7, 8, 9, 10, 11);
 
 void setup() {
 	Serial.begin(115200);
+
+	lcd.begin(16, 2);
+
+	lcd.print("Hello world!");
 }
 
 void loop() {
-	lightClock = analogRead(pinLight);
+	tempVal = sensors.getTemp();
+	lightVal = sensors.getLight();
 	Serial.print("Light: ");
-	Serial.print(lightClock);
 	Serial.println(" clock");
 	Serial.print("Light: ");
-	lightVal = lightClock*(5.0/1024.0);
 	Serial.print(lightVal);
 	Serial.println(" V");
-	tempVal = analogRead(pintTemp);
-	tempVal = (tempVal / 1024.0)*500;
 	Serial.print("Temp:");
 	Serial.print(tempVal);
 	Serial.println(" C");
+
+	lcd.setCursor(0, 1);
+	lcd.print(tempVal);
+
 	delay(500);
 }
