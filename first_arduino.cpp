@@ -7,8 +7,8 @@
 float tempVal;
 float lightVal;
 
-TempAndLight sensors(1,0);
-LiquidCrystal lcd(13, 7, 8, 9, 10, 11);
+TempAndLight sensors(0,1);
+LiquidCrystal lcd(7,0,1,2,3,4,5);
 
 void setup() {
 	Serial.begin(115200);
