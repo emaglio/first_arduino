@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <stdlib.h>
-#include "LiquidCrystal.h"
+#include "/first_arduino/libraries/LiquidCrystal/LiquidCrystal.h"
 
-#include "TempAndLight.h"
+#include "/first_arduino/libraries/TempAndLight/TempAndLight.h"
 
 float tempVal;
 float lightVal;
