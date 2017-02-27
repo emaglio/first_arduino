@@ -5,7 +5,7 @@
 #include "Print.h"
 
 //flag for function set
-#define LCD_4bit 0x00
+#define LCD_CLEAN 0x00
 
 class MyLCD : public Print{
 public:
@@ -15,6 +15,8 @@ public:
 		uint8_t d4, uint8_t d5, uint8_t d6, uint8_t d7);
 
 	void begin(uint8_t cols, uint8_t lines);
+	void command(uint8_t value);
+	void clean();
 	virtual size_t write(uint8_t);
 	using Print::write;
 private:

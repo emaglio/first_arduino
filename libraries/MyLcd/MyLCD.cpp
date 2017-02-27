@@ -33,7 +33,9 @@ void MyLCD::begin(uint8_t cols, uint8_t lines){
 	digitalWrite(_rs_pin, LOW);
 	digitalWrite(_enable_pin, LOW);
 
-//	send twice the 4bits setup
+//	send twice to set the databus with 4bits
+//	because DB3 and DB2 are not connected so
+//	they will LOW which means 1 line and font 5x8 dots
 	write4bits(0x02);
 	delayMicroseconds(4500);
 
@@ -44,6 +46,8 @@ void MyLCD::write4bits(uint8_t value){
 	for(int i = 0; i < 4; i++){
 		digitalWrite(_data_pins[i], (value >> i) & 0x01);
 	}
+
+	pulseEnable();
 }
 
 void MyLCD::pulseEnable(void) {
@@ -68,5 +72,14 @@ void MyLCD::send(uint8_t value, uint8_t mode) {
   write4bits(value);
 }
 
+
+void MyLCD::command(uint8_t value){
+	send(value, LOW);
+}
+
+void MyLCD::clean(){
+	command(LCD_CLEAN);
+	delayMicroseconds(2000);
+}
 
 

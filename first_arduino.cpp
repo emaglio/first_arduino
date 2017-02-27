@@ -21,6 +21,10 @@ void setup() {
 }
 
 void loop() {
+	Serial.println("Check Hello World");
+	delay(4000);
+	Serial.println("Cleaning display");
+	lcd.clean();
 	tempVal = sensors.getTemp();
 	lightVal = sensors.getLight();
 	Serial.print("Light: ");
@@ -30,8 +34,8 @@ void loop() {
 	Serial.print(tempVal);
 	Serial.println(" C");
 
-	lcd.setCursor(0, 0);
+//	lcd.setCursor(0, 0);
+	Serial.println("Write temp");
 	lcd.print(tempVal);
-
-	delay(500);
+	delay(2000);
 }
