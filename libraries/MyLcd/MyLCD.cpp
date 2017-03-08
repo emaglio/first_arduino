@@ -25,6 +25,9 @@ void MyLCD::begin(uint8_t cols, uint8_t lines, uint8_t font){
 	pinMode(_rs_pin, OUTPUT);
 	pinMode(_enable_pin, OUTPUT);
 
+	_num_lines = lines;
+	setRowOffsets(0x00, 0x40, 0x00 + cols, 0x40 + cols);
+
 	for(int i = 0; i < 4; i++){
 		pinMode(_data_pins[i], OUTPUT);
 	}
@@ -62,6 +65,7 @@ void MyLCD::begin(uint8_t cols, uint8_t lines, uint8_t font){
 	//Set bits, lines and font
 	command(LCD_FUNCTIONSET | _displayfunction);
 
+	noDisplay();
 	//turn the display ON, no blinking, no cursor
 	_displaycontrol = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;
 	display();
@@ -110,13 +114,67 @@ void MyLCD::command(uint8_t value){
 	send(value, LOW);
 }
 
+//Clear all display data
 void MyLCD::clean(){
 	command(LCD_CLEARDISPLAY);
 	delayMicroseconds(2000);
 }
 
+//turn the display ON
 void MyLCD::display(){
+	_displaycontrol |= LCD_DISPLAYON;
 	command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
 
+//turn the display OFF
+void MyLCD::noDisplay(){
+	_displaycontrol &= ~LCD_DISPLAYOFF;
+	command(LCD_DISPLAYCONTROL | _displaycontrol);
+}
+
+//turn the cursor ON
+void MyLCD::cursor(){
+	_displaycontrol |= LCD_CURSORON;
+	command(LCD_DISPLAYCONTROL | _displaycontrol);
+}
+
+//turn the cursor OFF
+void MyLCD::noCursor(){
+	_displaycontrol &= ~LCD_CURSOROFF;
+	command(LCD_DISPLAYCONTROL | _displaycontrol);
+}
+
+//turn the blink ON
+void MyLCD::blink(){
+	_displaycontrol |= LCD_BLINKON;
+	command(LCD_DISPLAYCONTROL | _displaycontrol);
+}
+
+//turn the blink OFF
+void MyLCD::noBlink(){
+	_displaycontrol &= ~LCD_BLINKOFF;
+	command(LCD_DISPLAYCONTROL | _displaycontrol);
+}
+
+void MyLCD::setRowOffsets(int row0, int row1, int row2, int row3)
+{
+  _row_offsets[0] = row0;
+  _row_offsets[1] = row1;
+  _row_offsets[2] = row2;
+  _row_offsets[3] = row3;
+}
+
+
+//Set the position of the cursor
+void MyLCD::setCursor(uint8_t col, uint8_t row){
+	const size_t max_lines = sizeof(_row_offsets) / sizeof(*_row_offsets);
+	if ( row >= max_lines ) {
+		row = max_lines - 1;    // we count rows starting w/0
+	}
+	if ( row >= _num_lines ) {
+		row = _num_lines - 1;    // we count rows starting w/0
+	}
+
+	command(LCD_SETDDRAMADDR | (col + _row_offsets[row]));
+}
 

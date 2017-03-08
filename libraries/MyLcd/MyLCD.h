@@ -50,7 +50,14 @@ public:
 	void home();
 
 	void display();
+	void noDisplay();
+	void cursor();
+	void noCursor();
+	void blink();
+	void noBlink();
+	void setCursor(uint8_t column, uint8_t row);
 
+	void setRowOffsets(int row1, int row2, int row3, int row4);
 	void command(uint8_t value);
 	virtual size_t write(uint8_t);
 	using Print::write;
@@ -67,5 +74,7 @@ private:
 	uint8_t _displayfunction;
 	uint8_t _displaycontrol;
 	uint8_t _displaymode;
+	uint8_t _num_lines;
+	uint8_t _row_offsets[4];
 };
 #endif
