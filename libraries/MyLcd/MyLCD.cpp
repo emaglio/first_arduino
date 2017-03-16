@@ -156,6 +156,7 @@ void MyLCD::noBlink(){
 	command(LCD_DISPLAYCONTROL | _displaycontrol);
 }
 
+//set the AC address in base on the
 void MyLCD::setRowOffsets(int row0, int row1, int row2, int row3)
 {
   _row_offsets[0] = row0;
@@ -177,4 +178,15 @@ void MyLCD::setCursor(uint8_t col, uint8_t row){
 
 	command(LCD_SETDDRAMADDR | (col + _row_offsets[row]));
 }
+
+//Shift display to the right
+void MyLCD::shiftDisplayRight(){
+	command(LCD_CURSORDISPLAYSHIFT | LCD_DISPLAY | LCD_MOVERIGHT);
+}
+
+//Shift display to the left
+void MyLCD::shiftDisplayLeft(){
+	command(LCD_CURSORDISPLAYSHIFT | LCD_DISPLAY | LCD_MOVELEFT);
+}
+
 

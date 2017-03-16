@@ -9,7 +9,7 @@
 #define LCD_RETURNHOME 0x02
 #define LCD_ENTRYMODESET 0x04
 #define LCD_DISPLAYCONTROL 0x08
-#define LCD_CURSORSHIFT 0x10
+#define LCD_CURSORDISPLAYSHIFT 0x10
 #define LCD_FUNCTIONSET 0x20
 #define LCD_SETCGRAMADDR 0x40
 #define LCD_SETDDRAMADDR 0x80
@@ -36,6 +36,12 @@
 #define LCD_ENTRYSHIFTINCREMENT 0x01
 #define LCD_ENTRYSHIFTDECREMENT 0x00
 
+//flags for shifting display && cursor
+#define LCD_DISPLAY 0X08
+#define LCD_CURSOR 0X00
+#define LCD_MOVELEFT 0X00
+#define LCD_MOVERIGHT 0X04
+
 
 class MyLCD : public Print{
 public:
@@ -56,6 +62,8 @@ public:
 	void blink();
 	void noBlink();
 	void setCursor(uint8_t column, uint8_t row);
+	void shiftDisplayRight();
+	void shiftDisplayLeft();
 
 	void setRowOffsets(int row1, int row2, int row3, int row4);
 	void command(uint8_t value);
