@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <stdlib.h>
-#include <string>
+//#include <string>
 #include "/first_arduino/libraries/LiquidCrystal/LiquidCrystal.h"
 
 #include "/first_arduino/libraries/TempAndLight/TempAndLight.h"
@@ -57,22 +57,34 @@ void scroll (){
 }
 
 void write_to_lcd(const char* array[], int offset){
-	string first_line;
-	char second_line[];
-	char pointer[] = "<-";
-	int pointer_position = 0;
-	char num1[] = offset + 1;
-	char num2[] = offset + 2;
-	char value1[] = array[offset];
-	char value2[] = array[offset+1];
-	lcd.clean();
+	//size array
+	const size_t size_array = sizeof(array) / sizeof(*array);
+
+	//set the pointer "<-"
+	if(offset==0){
+		lcd.setCursor(14, 0);
+		lcd.print("<-");
+	}else{
+		lcd.setCursor(14, 0);
+		lcd.print("  ");
+		lcd.setCursor(14, 1);
+		lcd.print("<-");
+	}
+	//first line
+	if (offset == 1){offset = 0;}
 	lcd.setCursor(0,0);
-	first_line = strcat(num1, ") ", value1);
-	lcd.print(first_line);
-	lcd.setCursor(0, 1);
-	second_line = num2 << ") " << value2;
-	lcd.print(second_line);
-	delay(300);
+	lcd.print(offset+1);
+	lcd.setCursor(1,0);
+	lcd.print(")");
+	lcd.setCursor(3,0);
+	lcd.print(array[offset]);
+	//second line
+	lcd.setCursor(0,1);
+	lcd.print(offset+2);
+	lcd.setCursor(1,1);
+	lcd.print(")");
+	lcd.setCursor(3,1);
+	lcd.print(size_array);
 }
 
 void setup() {
@@ -108,6 +120,7 @@ void loop() {
 		lcd.setCursor(0,1);
 		lcd.print("continue...");
 	}else{
+		lcd.clean();
 		while(true){
 			//Here all the code for the menu
 			current_ok_counter = ok_counter;
