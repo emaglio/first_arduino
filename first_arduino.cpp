@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <stdlib.h>
+#include <string>
 #include "/first_arduino/libraries/LiquidCrystal/LiquidCrystal.h"
 
 #include "/first_arduino/libraries/TempAndLight/TempAndLight.h"
@@ -23,12 +24,16 @@ const uint8_t scroll_pin = 2;
 const uint8_t buzzer_pin = 13;
 
 //Menu
-const char* level_1[2] {"Sensors", "RBG LED"};
+const char* level_1[3] {"Sensors", "RBG LED", "TBD"};
 const char* level_1_1[3] {"Temperature", "Light", "<- BACK"};
 const char* level_1_2[5] {"OFF", "Blue", "Green", "Red", "<- BACK"};
+const char* level_1_3[1] {"<- BACK"};
 int level_1_counter = 0;
 int level_1_1_counter = 0;
 int level_1_2_counter = 0;
+bool level_2 = false;
+int current_ok_counter = 0;
+int current_scroll_counter = 0;
 
 //libraries
 TempAndLight sensors(0,1);
@@ -49,6 +54,25 @@ void ok(){
 void scroll (){
 	Serial.println("scroll");
 	scroll_counter += 1;
+}
+
+void write_to_lcd(const char* array[], int offset){
+	string first_line;
+	char second_line[];
+	char pointer[] = "<-";
+	int pointer_position = 0;
+	char num1[] = offset + 1;
+	char num2[] = offset + 2;
+	char value1[] = array[offset];
+	char value2[] = array[offset+1];
+	lcd.clean();
+	lcd.setCursor(0,0);
+	first_line = strcat(num1, ") ", value1);
+	lcd.print(first_line);
+	lcd.setCursor(0, 1);
+	second_line = num2 << ") " << value2;
+	lcd.print(second_line);
+	delay(300);
 }
 
 void setup() {
@@ -86,10 +110,14 @@ void loop() {
 	}else{
 		while(true){
 			//Here all the code for the menu
-			lcd.clean();
-			lcd.setCursor(0,0);
-			lcd.print("Menu");
-			delay(250);
+			current_ok_counter = ok_counter;
+			current_scroll_counter = scroll_counter;
+			//first loop for first level menu
+			write_to_lcd(level_1, 0);
+//			while(current_ok_counter == ok_counter){
+
+//				delay(250);
+//			}
 		}
 	}
 
