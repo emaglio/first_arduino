@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <stdlib.h>
-//#include <string>
-#include "/first_arduino/libraries/LiquidCrystal/LiquidCrystal.h"
+#include <string.h>
 
+#include "/first_arduino/libraries/LiquidCrystal/LiquidCrystal.h"
 #include "/first_arduino/libraries/TempAndLight/TempAndLight.h"
 #include "/first_arduino/libraries/MyLCD/MyLCD.h"
 
@@ -13,7 +13,7 @@ float lightVal;
 volatile int ok_counter = 0;
 volatile int scroll_counter = 0;
 //first OK pressed to start the menu
-volatile int start_menu = 0;
+int start_menu = 0;
 
 
 //button pins
@@ -34,6 +34,8 @@ int level_1_2_counter = 0;
 bool level_2 = false;
 int current_ok_counter = 0;
 int current_scroll_counter = 0;
+
+int size_array;
 
 //libraries
 TempAndLight sensors(0,1);
@@ -56,9 +58,18 @@ void scroll (){
 	scroll_counter += 1;
 }
 
-void write_to_lcd(const char* array[], int offset){
-	//size array
-	const size_t size_array = sizeof(array) / sizeof(*array);
+void write_to_lcd(const char* array[], int size_array, int offset){
+	lcd.clean();
+
+	int remainder, index_first_line, index_second_line;
+
+	remainder = offset % size_array;
+	index_first_line = remainder;
+	index_second_line = remainder + 1;
+
+	if(remainder == (size_array - 1)){
+		index_first_line = 0;
+	}
 
 	//set the pointer "<-"
 	if(offset==0){
@@ -70,21 +81,28 @@ void write_to_lcd(const char* array[], int offset){
 		lcd.setCursor(14, 1);
 		lcd.print("<-");
 	}
+
+	Serial.println(size_array);
+	Serial.println(remainder);
+	Serial.println(offset);
+	Serial.println(index_first_line);
+	Serial.println(index_second_line);
+
 	//first line
-	if (offset == 1){offset = 0;}
 	lcd.setCursor(0,0);
-	lcd.print(offset+1);
+	lcd.print(index_first_line);
 	lcd.setCursor(1,0);
 	lcd.print(")");
 	lcd.setCursor(3,0);
-	lcd.print(array[offset]);
+	lcd.print(array[index_first_line]);
+
 	//second line
 	lcd.setCursor(0,1);
-	lcd.print(offset+2);
+	lcd.print(index_second_line);
 	lcd.setCursor(1,1);
 	lcd.print(")");
 	lcd.setCursor(3,1);
-	lcd.print(size_array);
+	lcd.print(array[index_second_line]);
 }
 
 void setup() {
@@ -120,37 +138,21 @@ void loop() {
 		lcd.setCursor(0,1);
 		lcd.print("continue...");
 	}else{
-		lcd.clean();
+		size_array = (sizeof(level_1)/sizeof(char))/2;
+		write_to_lcd(level_1, size_array, 0);
 		while(true){
 			//Here all the code for the menu
-			current_ok_counter = ok_counter;
-			current_scroll_counter = scroll_counter;
-			//first loop for first level menu
-			write_to_lcd(level_1, 0);
-//			while(current_ok_counter == ok_counter){
 
-//				delay(250);
-//			}
+			//scroll event
+			if(current_scroll_counter != scroll_counter){
+				size_array = (sizeof(level_1)/sizeof(char))/2;
+				write_to_lcd(level_1, size_array, current_scroll_counter+1);
+				current_scroll_counter = scroll_counter;
+			}
+
+			if(current_ok_counter != ok_counter){
+
+			}
 		}
 	}
-
-
-//	lcd.print("Hello world!");
-//	Serial.println("Check Hello World");
-//	delay(4000);
-//	Serial.println("Cleaning display");
-//	lcd.clean();
-//	tempVal = sensors.getTemp();
-//	lightVal = sensors.getLight();
-//	Serial.print("Light: ");
-//	Serial.print(lightVal);
-//	Serial.println(" V");
-//	Serial.print("Temp:");
-//	Serial.print(tempVal);
-//	Serial.println(" C");
-
-//	lcd.setCursor(0, 0);
-//	Serial.println("Write temp");
-//	lcd.print(tempVal);
-//	delay(1000);
 }
