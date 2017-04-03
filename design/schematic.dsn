@@ -11,7 +11,7 @@ download the executable.-->
 			<GUIDES horiz='7' vert='5'/>
 			<TITLE>First Arduino</TITLE>
 			<AUTHOR>Emanuele</AUTHOR>
-			<REVISION>2.0</REVISION>
+			<REVISION>2.1</REVISION>
 			<DOCNUMBER></DOCNUMBER>
 			<ORGANISATION></ORGANISATION>
 			<SHEETS>1 of 1</SHEETS>
@@ -19,16 +19,6 @@ download the executable.-->
 			<DATE></DATE>
 			<GRID spacing='100.00000' snap='1'/>
 		</DETAILS>
-		<FONT id='0'>
-			<HEIGHT>-13</HEIGHT>
-			<WIDTH>6</WIDTH>
-			<WEIGHT>400</WEIGHT>
-			<ITALIC>0</ITALIC>
-			<UNDERLINE>0</UNDERLINE>
-			<STRIKEOUT>0</STRIKEOUT>
-			<CHARSET>0</CHARSET>
-			<FACENAME>Arial</FACENAME>
-		</FONT>
 		<FONT id='1'>
 			<HEIGHT>-10</HEIGHT>
 			<WIDTH>0</WIDTH>
@@ -60,6 +50,16 @@ download the executable.-->
 			<FACENAME>Arial</FACENAME>
 		</FONT>
 		<FONT id='5'>
+			<HEIGHT>-13</HEIGHT>
+			<WIDTH>6</WIDTH>
+			<WEIGHT>400</WEIGHT>
+			<ITALIC>0</ITALIC>
+			<UNDERLINE>0</UNDERLINE>
+			<STRIKEOUT>0</STRIKEOUT>
+			<CHARSET>0</CHARSET>
+			<FACENAME>Arial</FACENAME>
+		</FONT>
+		<FONT id='6'>
 			<HEIGHT>-16</HEIGHT>
 			<WIDTH>7</WIDTH>
 			<WEIGHT>400</WEIGHT>
@@ -69,7 +69,7 @@ download the executable.-->
 			<CHARSET>0</CHARSET>
 			<FACENAME>Arial</FACENAME>
 		</FONT>
-		<FONT id='6'>
+		<FONT id='7'>
 			<HEIGHT>-11</HEIGHT>
 			<WIDTH>5</WIDTH>
 			<WEIGHT>400</WEIGHT>
@@ -79,7 +79,7 @@ download the executable.-->
 			<CHARSET>0</CHARSET>
 			<FACENAME>Arial</FACENAME>
 		</FONT>
-		<FONT id='7'>
+		<FONT id='8'>
 			<HEIGHT>-35</HEIGHT>
 			<WIDTH>15</WIDTH>
 			<WEIGHT>400</WEIGHT>
@@ -89,7 +89,7 @@ download the executable.-->
 			<CHARSET>0</CHARSET>
 			<FACENAME>Arial</FACENAME>
 		</FONT>
-		<FONT id='8'>
+		<FONT id='9'>
 			<HEIGHT>-19</HEIGHT>
 			<WIDTH>8</WIDTH>
 			<WEIGHT>400</WEIGHT>
@@ -99,7 +99,7 @@ download the executable.-->
 			<CHARSET>0</CHARSET>
 			<FACENAME>Arial</FACENAME>
 		</FONT>
-		<FONT id='9'>
+		<FONT id='10'>
 			<HEIGHT>-21</HEIGHT>
 			<WIDTH>9</WIDTH>
 			<WEIGHT>400</WEIGHT>
@@ -109,7 +109,7 @@ download the executable.-->
 			<CHARSET>0</CHARSET>
 			<FACENAME>Arial</FACENAME>
 		</FONT>
-		<FONT id='10'>
+		<FONT id='11'>
 			<HEIGHT>-8</HEIGHT>
 			<WIDTH>4</WIDTH>
 			<WEIGHT>400</WEIGHT>
@@ -204,7 +204,7 @@ download the executable.-->
 				<PIN pos='100.00000,30.00000' which='0' elec='4' direction='1' part='0' number='15' show='1' length='30' number_pos='11' centre_name='0'>BLA</PIN>
 				<PIN pos='104.00000,30.00000' which='0' elec='4' direction='1' part='0' number='16' show='1' length='30' number_pos='11' centre_name='0'>BLK</PIN>
 				<RECTANGLE a='34.00000,46.00000' b='164.00000,74.00000' style='4' fill='1'/>
-				<TEXT pos='94.00000,62.00000' direction='3' font='7' color='FFFFFF'>LCD</TEXT>
+				<TEXT pos='94.00000,62.00000' direction='3' font='8' color='FFFFFF'>LCD</TEXT>
 			</TinyCAD>
 		</SYMBOLDEF>
 		<SYMBOLDEF id='2'>
@@ -300,7 +300,7 @@ download the executable.-->
 				<PIN pos='78.00000,56.00000' which='0' elec='0' direction='0' part='0' number='2' show='1' length='30' number_pos='11' centre_name='0'>G</PIN>
 				<PIN pos='82.00000,56.00000' which='0' elec='0' direction='0' part='0' number='3' show='1' length='30' number_pos='11' centre_name='0'>R</PIN>
 				<PIN pos='86.00000,56.00000' which='0' elec='4' direction='0' part='0' number='4' show='1' length='30' number_pos='11' centre_name='0'>GND</PIN>
-				<TEXT pos='70.00000,42.00000' direction='3' font='9' color='FFFFFF'>RGB LED</TEXT>
+				<TEXT pos='70.00000,42.00000' direction='3' font='10' color='FFFFFF'>RGB LED</TEXT>
 			</TinyCAD>
 		</SYMBOLDEF>
 		<SYMBOLDEF id='4'>
@@ -378,7 +378,7 @@ download the executable.-->
 			</FIELD>
 			<REF_POINT power='0' part='0' pos='36.00000,46.00000'/>
 			<TinyCAD>
-				<TEXT pos='24.00000,34.00000' direction='3' font='8' color='000000'>LM35</TEXT>
+				<TEXT pos='24.00000,34.00000' direction='3' font='9' color='000000'>LM35</TEXT>
 				<PIN pos='24.00000,46.00000' which='0' elec='4' direction='0' part='0' number='1' show='3' length='30' number_pos='11' centre_name='0'>Vs</PIN>
 				<PIN pos='32.00000,46.00000' which='0' elec='4' direction='0' part='0' number='3' show='3' length='30' number_pos='11' centre_name='0'>GND</PIN>
 				<PIN pos='28.00000,46.00000' which='0' elec='1' direction='0' part='0' number='2' show='3' length='30' number_pos='11' centre_name='0'>Vout</PIN>
@@ -391,7 +391,7 @@ download the executable.-->
 					<POINT pos='0.00000,4.00000' arc='1'/>
 					<POINT pos='0.00000,4.00000' arc='1'/>
 				</POLYGON>
-				<TEXT pos='22.00000,30.00000' direction='3' font='10' color='000000'>(bottom view)</TEXT>
+				<TEXT pos='22.00000,30.00000' direction='3' font='11' color='000000'>(bottom view)</TEXT>
 			</TinyCAD>
 		</SYMBOLDEF>
 		<SYMBOLDEF id='6'>
@@ -444,7 +444,7 @@ download the executable.-->
 					<POINT pos='6.52500,0.00000' arc='0'/>
 				</POLYGON>
 				<RECTANGLE a='108.00000,102.00000' b='118.00000,108.00000' style='4' fill='1'/>
-				<TEXT pos='130.00000,87.00000' direction='3' font='5' color='FFFFFF'>Iduino UNO</TEXT>
+				<TEXT pos='130.00000,87.00000' direction='3' font='6' color='FFFFFF'>Iduino UNO</TEXT>
 				<PIN pos='120.00000,64.00000' which='0' elec='4' direction='1' part='0' number='75' show='1' length='30' number_pos='0' centre_name='0'>AREF</PIN>
 				<PIN pos='122.00000,64.00000' which='0' elec='4' direction='1' part='0' number='GDN' show='1' length='30' number_pos='0' centre_name='0'>GND</PIN>
 				<PIN pos='148.00000,64.00000' which='0' elec='5' direction='1' part='0' number='D2' show='1' length='30' number_pos='0' centre_name='0'>PD2</PIN>
@@ -472,12 +472,12 @@ download the executable.-->
 				<PIN pos='127.00000,116.00000' which='0' elec='4' direction='0' part='0' number='3' show='1' length='30' number_pos='3' centre_name='0'>5V</PIN>
 				<PIN pos='129.00000,116.00000' which='0' elec='4' direction='0' part='0' number='4' show='1' length='30' number_pos='4' centre_name='0'>GND</PIN>
 				<PIN pos='133.00000,116.00000' which='0' elec='4' direction='0' part='0' number='6' show='1' length='30' number_pos='6' centre_name='0'>Vin</PIN>
-				<TEXT pos='119.00000,82.00000' direction='3' font='6' color='FFFFFF'>Digital (~PWM)</TEXT>
-				<TEXT pos='123.00000,103.00000' direction='3' font='3' color='FFFFFF'>POWER</TEXT>
+				<TEXT pos='119.00000,82.00000' direction='3' font='7' color='FFFFFF'>Digital (~PWM)</TEXT>
+				<TEXT pos='123.00000,103.00000' direction='3' font='4' color='FFFFFF'>POWER</TEXT>
 				<PIN pos='131.00000,116.00000' which='0' elec='4' direction='0' part='0' number='5' show='1' length='30' number_pos='5' centre_name='0'>GND</PIN>
 				<PIN pos='118.00000,64.00000' which='0' elec='4' direction='1' part='0' number='SDA' show='1' length='30' number_pos='0' centre_name='0'>SDA</PIN>
 				<PIN pos='116.00000,64.00000' which='0' elec='4' direction='1' part='0' number='SCI' show='1' length='30' number_pos='0' centre_name='0'>SCI</PIN>
-				<TEXT pos='141.00000,103.00000' direction='3' font='3' color='FFFFFF'>Analog</TEXT>
+				<TEXT pos='141.00000,103.00000' direction='3' font='4' color='FFFFFF'>Analog</TEXT>
 				<PIN pos='151.00000,116.00000' which='0' elec='5' direction='0' part='0' number='A5' show='1' length='30' number_pos='11' centre_name='0'>AIN5</PIN>
 			</TinyCAD>
 		</SYMBOLDEF>
@@ -751,7 +751,7 @@ download the executable.-->
 			<TinyCAD>
 				<PIN pos='18.00000,18.00000' which='0' elec='0' direction='1' part='0' number='1' show='1' length='30' number_pos='0' centre_name='0'></PIN>
 				<PIN pos='18.00000,38.00000' which='0' elec='0' direction='0' part='0' number='2' show='1' length='30' number_pos='0' centre_name='0'></PIN>
-				<TEXT pos='18.00000,23.00000' direction='0' font='0' color='000000'>+</TEXT>
+				<TEXT pos='18.00000,23.00000' direction='0' font='3' color='000000'>+</TEXT>
 				<POLYGON pos='18.00000,23.00000' style='4' fill='0'>
 					<POINT pos='0.00000,1.00000' arc='0'/>
 					<POINT pos='0.00000,0.00000' arc='0'/>
@@ -816,8 +816,8 @@ download the executable.-->
 		<WIRE a='106.00000,72.00000' b='154.00000,72.00000'/>
 		<WIRE a='154.00000,72.00000' b='154.00000,78.00000'/>
 		<WIRE a='206.00000,72.00000' b='206.00000,78.00000'/>
-		<LABEL pos='128.00000,72.00000' direction='3' font='4' color='208000' style='0'>Vcc</LABEL>
-		<LABEL pos='130.00000,66.00000' direction='3' font='4' color='208000' style='0'>GND</LABEL>
+		<LABEL pos='128.00000,72.00000' direction='3' font='5' color='208000' style='0'>Vcc</LABEL>
+		<LABEL pos='130.00000,66.00000' direction='3' font='5' color='208000' style='0'>GND</LABEL>
 		<WIRE a='166.00000,78.00000' b='166.00000,66.00000'/>
 		<WIRE a='150.00000,66.00000' b='166.00000,66.00000'/>
 		<WIRE a='72.00000,78.00000' b='72.00000,62.00000'/>
@@ -893,7 +893,7 @@ download the executable.-->
 		<WIRE a='20.00000,172.00000' b='20.00000,188.00000'/>
 		<WIRE a='20.00000,188.00000' b='75.00000,188.00000'/>
 		<WIRE a='75.00000,174.00000' b='75.00000,188.00000'/>
-		<TEXT pos='32.00000,144.00000' direction='3' font='3' color='000000'>light</TEXT>
+		<TEXT pos='32.00000,144.00000' direction='3' font='4' color='000000'>light</TEXT>
 		<SYMBOL id='5' pos='66.00000,178.00000' part='0' rotate='2' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='U?' show='0' pos='-20.00000,2.00000'/>
 			<FIELD type='0' description='Name' value='LM35_temp_sensor' show='1' pos='-20.00000,-16.00000'/>
@@ -909,9 +909,9 @@ download the executable.-->
 			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
 			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1.00000,-45.20000'/>
 		</SYMBOL>
-		<SYMBOL id='7' pos='100.00000,28.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='7' pos='138.00000,182.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='SW?' show='0' pos='1.00000,0.40000'/>
-			<FIELD type='0' description='Name' value='OK' show='1' pos='-19.00000,-6.00000'/>
+			<FIELD type='0' description='Name' value='OK' show='1' pos='-15.00000,-6.00000'/>
 			<FIELD type='1' description='Package' value='' show='0' pos='1.00000,2.80000'/>
 			<FIELD type='1' description='Usage' value='..' show='0' pos='1.00000,5.20000'/>
 			<FIELD type='1' description='Datasheet' value='..' show='0' pos='1.00000,7.60000'/>
@@ -929,9 +929,9 @@ download the executable.-->
 			<FIELD type='1' description='Cost' value='2.76' show='0' pos='1.00000,36.40000'/>
 			<FIELD type='3' description='Other' value='..' show='1' pos='1.00000,38.80000'/>
 		</SYMBOL>
-		<SYMBOL id='7' pos='136.00000,28.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='7' pos='174.00000,182.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='SW?' show='0' pos='1.00000,0.40000'/>
-			<FIELD type='0' description='Name' value='Scroll' show='1' pos='-21.00000,-6.00000'/>
+			<FIELD type='0' description='Name' value='Scroll' show='1' pos='-15.00000,-6.00000'/>
 			<FIELD type='1' description='Package' value='' show='0' pos='1.00000,2.80000'/>
 			<FIELD type='1' description='Usage' value='..' show='0' pos='1.00000,5.20000'/>
 			<FIELD type='1' description='Datasheet' value='..' show='0' pos='1.00000,7.60000'/>
@@ -949,40 +949,31 @@ download the executable.-->
 			<FIELD type='1' description='Cost' value='2.76' show='0' pos='1.00000,36.40000'/>
 			<FIELD type='3' description='Other' value='..' show='1' pos='1.00000,38.80000'/>
 		</SYMBOL>
-		<SYMBOL id='4' pos='80.00000,28.00000' part='0' rotate='6' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='4' pos='118.00000,182.00000' part='0' rotate='6' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='0' description='Ref' value='10K' show='1' pos='-16.00000,4.00000'/>
 			<FIELD type='0' description='Name' value='R4' show='1' pos='-16.00000,-4.00000'/>
 		</SYMBOL>
-		<SYMBOL id='4' pos='156.00000,28.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='4' pos='194.00000,182.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='0' description='Ref' value='10K' show='1' pos='-14.00000,4.00000'/>
 			<FIELD type='0' description='Name' value='R5' show='1' pos='-12.00000,-4.00000'/>
 		</SYMBOL>
-		<WIRE a='80.00000,26.00000' b='80.00000,40.00000'/>
-		<WIRE a='80.00000,40.00000' b='90.00000,40.00000'/>
-		<WIRE a='90.00000,40.00000' b='90.00000,78.00000'/>
-		<JUNCTION pos='80.00000,26.00000'/>
-		<SYMBOL id='8' pos='62.00000,34.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='8' pos='100.00000,188.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='0' description='Ref' value='G?' show='0' pos='1.00000,-3.60000'/>
 			<FIELD type='0' description='Name' value='GND' show='1' pos='-7.00000,-4.00000'/>
 			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
 			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
 			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1.00000,-1.20000'/>
 		</SYMBOL>
-		<SYMBOL id='8' pos='158.00000,34.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='8' pos='196.00000,188.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='0' description='Ref' value='GND' show='0' pos='1.00000,-3.60000'/>
 			<FIELD type='0' description='Name' value='GND' show='1' pos='1.00000,-6.00000'/>
 			<FIELD type='2' description='$$SPICE_PROLOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
 			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
 			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1.00000,-1.20000'/>
 		</SYMBOL>
-		<JUNCTION pos='136.00000,26.00000'/>
-		<WIRE a='136.00000,26.00000' b='136.00000,40.00000'/>
-		<WIRE a='136.00000,40.00000' b='92.00000,40.00000'/>
-		<WIRE a='92.00000,40.00000' b='92.00000,78.00000'/>
-		<POWER pos='108.00000,26.00000' which='0' direction='0'>5V</POWER>
-		<WIRE a='108.00000,26.00000' b='100.00000,26.00000'/>
-		<JUNCTION pos='108.00000,26.00000'/>
-		<WIRE a='116.00000,26.00000' b='108.00000,26.00000'/>
+		<POWER pos='146.00000,180.00000' which='0' direction='0'>5V</POWER>
+		<WIRE a='146.00000,180.00000' b='138.00000,180.00000'/>
+		<WIRE a='154.00000,180.00000' b='146.00000,180.00000'/>
 		<SYMBOL id='9' pos='24.00000,48.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='B?' show='0' pos='1.00000,-15.60000'/>
 			<FIELD type='0' description='Name' value='BUZZER' show='1' pos='1.00000,-10.00000'/>
@@ -1013,5 +1004,14 @@ download the executable.-->
 			<FIELD type='2' description='$$SPICE_EPILOG_PRIORITY' value='5' show='0' pos='0.00000,0.00000'/>
 			<FIELD type='1' description='Package' value='package name for PCB layout' show='0' pos='1.00000,-1.20000'/>
 		</SYMBOL>
+		<JUNCTION pos='146.00000,180.00000'/>
+		<JUNCTION pos='118.00000,180.00000'/>
+		<WIRE a='118.00000,180.00000' b='118.00000,164.00000'/>
+		<WIRE a='118.00000,164.00000' b='93.00000,164.00000'/>
+		<WIRE a='93.00000,164.00000' b='93.00000,130.00000'/>
+		<JUNCTION pos='174.00000,180.00000'/>
+		<WIRE a='174.00000,180.00000' b='174.00000,160.00000'/>
+		<WIRE a='174.00000,160.00000' b='95.00000,160.00000'/>
+		<WIRE a='95.00000,160.00000' b='95.00000,130.00000'/>
 	</TinyCAD>
 </TinyCADSheets>
