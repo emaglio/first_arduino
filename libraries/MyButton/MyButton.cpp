@@ -27,14 +27,14 @@ void MyButton::begin(uint8_t pin){
 int MyButton::checkButton(){
 	readButton();
 	getButtonEvents();
-	result = checkResult();
+	checkResult();
 
 	return result;
 }
 
 void MyButton::readButton(){
 	// read button
-	if(digitalRead(_button_pin) == HIGH){
+	if(digitalRead(_button_pin) == 1){
 		_buttonVal = true;
 	}else{
 		_buttonVal = false;
@@ -50,10 +50,12 @@ void MyButton::getButtonEvents(){
 		}
 		_timeDown = millis();
 
+		//
+		_previousVal = true;
+
 		//reset variables
 		result = 0;
 		_buttonClicked = false;
-		_previousVal = true;
 
 	// button released
 	}else if(_buttonVal == false && _previousVal == true && (millis()-_timeDown) > _debounce){
