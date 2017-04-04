@@ -50,8 +50,7 @@ void MyButton::getButtonEvents(){
 		}
 		_timeDown = millis();
 
-		//
-		_previousVal = true;
+		_previousVal = _buttonVal;
 
 		//reset variables
 		result = 0;
@@ -63,6 +62,7 @@ void MyButton::getButtonEvents(){
 		_timePressed = _timeUp - _timeDown;
 		_event += 1;
 		_buttonClicked = true;
+		_previousVal = _buttonVal;
 	}
 }
 

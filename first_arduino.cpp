@@ -163,8 +163,6 @@ void loop() {
 
 	ok_result = ok.checkButton();
 
-	Serial.println(digitalRead(ok_pin));
-
 	if(ok_result == 1){
 		lcd.clean();
 		lcd.setCursor(0,0);
