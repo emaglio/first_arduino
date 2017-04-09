@@ -11,21 +11,16 @@ float tempVal;
 float lightVal;
 
 //these must be volatile to be used in the interrupt
-volatile int ok_counter = 0;
-volatile int scroll_counter = 0;
+long ok_counter = 0;
+long scroll_counter = 0;
 //first OK pressed to start the menu
 int start_menu = 0;
-
-
-//button pins
-const uint8_t ok_pin = 3;
-const uint8_t scroll_pin = 2;
 
 //buzzer pin
 const uint8_t buzzer_pin = 13;
 
 //Menu
-const char* level_1[3] {"Sensors", "RBG LED", "TBD"};
+const char* level_1[5] {"Sensors", "RBG LED", "Erin", "Mani", "Doggy dog"};
 const char* level_1_1[3] {"Temperature", "Light", "<- BACK"};
 const char* level_1_2[5] {"OFF", "Blue", "Green", "Red", "<- BACK"};
 const char* level_1_3[1] {"<- BACK"};
@@ -40,15 +35,15 @@ int scroll_result = 0;
 
 int size_array;
 
-//pin configuration
+//button pins configuration
 #define ok_pin 18
 #define scroll_pin 19
 
 //libraries
 TempAndLight sensors(0,1);
 MyLCD lcd(11,12,7,6,5,4);
-MyButton ok(4);
-MyButton scroll(5);
+MyButton ok(ok_pin);
+MyButton scroll(scroll_pin);
 
 //Event functions
 void buzzer(){
@@ -58,12 +53,14 @@ void buzzer(){
 }
 
 void ok_event(){
-	Serial.println("ok");
 	ok_counter += 1;
 }
 
+void ok_double(){
+	ok_counter += 2;
+}
+
 void scroll_event(){
-	Serial.println("scroll");
 	scroll_counter += 1;
 }
 
@@ -77,18 +74,25 @@ void write_to_lcd(const char* array[], int size_array, int offset){
 	index_second_line = remainder + 1;
 
 	if(remainder == (size_array - 1)){
-		index_first_line = 0;
+		index_second_line = 0;
 	}
 
 	//set the pointer "<-"
-	if(offset==0){
+	if(offset == 0){
 		lcd.setCursor(14, 0);
 		lcd.print("<-");
+		index_first_line = 0;
+		index_second_line = 1;
 	}else{
 		lcd.setCursor(14, 0);
 		lcd.print("  ");
 		lcd.setCursor(14, 1);
 		lcd.print("<-");
+	}
+
+	if(remainder == 1 && offset == 1){
+		index_first_line = 0;
+		index_second_line = 1;
 	}
 
 	Serial.println(size_array);
@@ -114,12 +118,36 @@ void write_to_lcd(const char* array[], int size_array, int offset){
 	lcd.print(array[index_second_line]);
 }
 
+void ok_control(){
+	ok_result = ok.checkButton();
+
+	if(ok_result == 1){
+		ok_event();
+	}
+
+	if(ok_result == 2){
+		ok_double();
+	}
+}
+
+void scroll_control(){
+	scroll_result = scroll.checkButton();
+
+	if(scroll_result == 1){
+		scroll_event();
+	}
+}
+
 void setup() {
 	Serial.begin(115200);
+
+	pinMode(ok_pin, INPUT);
+	digitalWrite(ok_pin, HIGH);
 
 	//columns, rows, font (58 -> 5x8 or 511 -> 5x11)
 	lcd.begin(16,2,58);
 
+	//set up buttons
 	ok.begin(ok_pin);
 	scroll.begin(scroll_pin);
 
@@ -134,56 +162,40 @@ void setup() {
 	delay(4000);
 	lcd.clean();
 	delay(1000);
+
+	Serial.print(ok_counter);
 }
 
 void loop() {
-//	if(start_menu == 0 and ok_counter == 0){
-//		lcd.setCursor(0,0);
-//		lcd.print("Click OK to");
-//		lcd.setCursor(0,1);
-//		lcd.print("continue...");
-//	}else{
-//		size_array = (sizeof(level_1)/sizeof(char))/2;
-//		write_to_lcd(level_1, size_array, 0);
-//		while(true){
-//			//Here all the code for the menu
-//
-//			//scroll event
-//			if(current_scroll_counter != scroll_counter){
-//				size_array = (sizeof(level_1)/sizeof(char))/2;
-//				write_to_lcd(level_1, size_array, current_scroll_counter+1);
-//				current_scroll_counter = scroll_counter;
-//			}
-//
-//			if(current_ok_counter != ok_counter){
-//
-//			}
-//		}
-//	}
-
 	ok_result = ok.checkButton();
 
 	if(ok_result == 1){
-		lcd.clean();
-		lcd.setCursor(0,0);
-		lcd.print("Just a click");
+		ok_event();
 	}
 
-	if(ok_result == 2){
-		lcd.clean();
+	if(start_menu == 0 and ok_counter == 0){
 		lcd.setCursor(0,0);
-		lcd.print("Double Click");
+		lcd.print("Click OK to");
+		lcd.setCursor(0,1);
+		lcd.print("continue...");
+	}else{
+		size_array = (sizeof(level_1)/sizeof(char))/2;
+		write_to_lcd(level_1, size_array, 0);
+		while(true){
+			//Here all the code for the menu
+			ok_control();
+			scroll_control();
+			//scroll event
+			if(current_scroll_counter != scroll_counter){
+				size_array = (sizeof(level_1)/sizeof(char))/2;
+				write_to_lcd(level_1, size_array, current_scroll_counter+1);
+				current_scroll_counter = scroll_counter;
+			}
+
+			if(current_ok_counter != ok_counter){
+
+			}
+		}
 	}
 
-	if(ok_result == 3){
-		lcd.clean();
-		lcd.setCursor(0,0);
-		lcd.print("Hold Click");
-	}
-
-	if(ok_result == 4){
-		lcd.clean();
-		lcd.setCursor(0,0);
-		lcd.print("Long Hold Click");
-	}
 }
