@@ -25,7 +25,7 @@ public:
 
 private:
 	//button time variables
-	uint8_t _button_pin = 0;
+	int _button_pin = 0;
 	int _debounce = 20;			// ms debounce period to prevent flickering when pressing or releasing the button
 	int _DCgap = 250;			// ms hold period: how long to wait for press+hold event
 	int _holdTime = 1000;		// ms long hold period: how long to wait for press+hold event
@@ -38,7 +38,7 @@ private:
 	long _timeUp = 0; 				//time when button has been release
 	long _timeDown = 0; 			//time when button has been pressed
 	int _timePressed = 0; 			//time button pressed down
-	long _timeBetweenDowns = 0;		//time between 2 consecutive button switch
+	long _timeBetweenDowns = 300;	//time between 2 consecutive button switch
 	int _event = 0; 				//number of times the button is pressed successfully
 	bool _buttonClicked = false;	//flag to confirm the button has been pressed correctly
 

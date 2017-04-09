@@ -13,7 +13,6 @@ MyButton::MyButton(uint8_t pin){
 }
 
 void MyButton::init(uint8_t pin){
-	_button_pin = pin;
 	_event = 0;
 
 	begin(pin);
@@ -22,6 +21,7 @@ void MyButton::init(uint8_t pin){
 void MyButton::begin(uint8_t pin){
 	 pinMode(pin, INPUT);
 	 digitalWrite(pin, HIGH);
+	 _button_pin = pin;
 }
 
 int MyButton::checkButton(){
@@ -49,7 +49,6 @@ void MyButton::getButtonEvents(){
 			_timeBetweenDowns = millis() - _timeUp;
 		}
 		_timeDown = millis();
-
 		_previousVal = _buttonVal;
 
 		//reset variables
@@ -68,10 +67,11 @@ void MyButton::getButtonEvents(){
 
 void MyButton::checkResult(){
 	//check results only if the button has been successfully clicked
-	if(_buttonClicked == true){
+	if(_buttonClicked == true && (millis() - _timeUp) > 400){
 		// double click
 		if(_event >= 1 && _timeBetweenDowns < 250){
 			result = 2;
+			_timeBetweenDowns = 300;
 		}
 		// hold
 		if(_timePressed > 1000 && _timePressed < 3000){
@@ -79,11 +79,14 @@ void MyButton::checkResult(){
 		}
 		// long hold
 		if(_timePressed > 3000){
-			result = 3;
+			result = 4;
 		}
 		// normal click
 		if(result == 0){
 			result = 1;
 		}
+		_buttonClicked = false;
+	}else{
+		result = 0;
 	}
 }
