@@ -70,19 +70,11 @@ void write_to_lcd(const char* array[], int size_array, int offset){
 	int remainder, index_first_line, index_second_line;
 
 	remainder = offset % size_array;
-	index_first_line = remainder;
-	index_second_line = remainder + 1;
-
-	if(remainder == (size_array - 1)){
-		index_second_line = 0;
-	}
 
 	//set the pointer "<-"
 	if(offset == 0){
 		lcd.setCursor(14, 0);
 		lcd.print("<-");
-		index_first_line = 0;
-		index_second_line = 1;
 	}else{
 		lcd.setCursor(14, 0);
 		lcd.print("  ");
@@ -90,16 +82,21 @@ void write_to_lcd(const char* array[], int size_array, int offset){
 		lcd.print("<-");
 	}
 
-	if(remainder == 1 && offset == 1){
+	//set index first and second line
+	if(offset <= 1){
 		index_first_line = 0;
 		index_second_line = 1;
+	}else{
+		index_first_line = remainder - 1;
+		index_second_line = index_first_line + 1;
 	}
 
-	Serial.println(size_array);
-	Serial.println(remainder);
-	Serial.println(offset);
-	Serial.println(index_first_line);
-	Serial.println(index_second_line);
+	//showing last value first line
+	//and first value second line
+	if(remainder == 0 && offset > 1){
+		index_first_line = size_array;
+		index_second_line = 0;
+	}
 
 	//first line
 	lcd.setCursor(0,0);
