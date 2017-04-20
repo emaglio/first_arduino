@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "/first_arduino/libraries/LiquidCrystal/LiquidCrystal.h"
 #include "/first_arduino/libraries/TempAndLight/TempAndLight.h"
@@ -20,10 +19,11 @@ int start_menu = 0;
 const uint8_t buzzer_pin = 13;
 
 //Menu
-const char* level_1[5] {"Sensors", "RBG LED", "Erin", "Mani", "Doggy dog"};
-const char* level_1_1[3] {"Temperature", "Light", "<- BACK"};
-const char* level_1_2[5] {"OFF", "Blue", "Green", "Red", "<- BACK"};
-const char* level_1_3[1] {"<- BACK"};
+char* level_1[6] = {"1","Sensors", "RBG LED", "Erin", "Mani", "Doggy dog"};
+char* level_1_1[4] {"1-1","Temperature", "Light", "<- BACK"};
+char* level_1_1_1[4] {"1-1-1","ON", "OFF", "<- BACK"};
+char* level_1_2[6] {"1-2","OFF", "Blue", "Green", "Red", "<- BACK"};
+char* level_1_3[2] {"1-3","<- BACK"};
 int level_1_counter = 0;
 int level_1_1_counter = 0;
 int level_1_2_counter = 0;
@@ -64,7 +64,7 @@ void scroll_event(){
 	scroll_counter += 1;
 }
 
-void write_to_lcd(const char* array[], int size_array, int offset){
+void write_to_lcd(char* array[], int size_array, int offset){
 	lcd.clean();
 
 	int remainder, index_first_line, index_second_line;
@@ -135,6 +135,64 @@ void scroll_control(){
 	}
 }
 
+//dim of menu_array
+// num_array --> number of arrays
+// dim_array --> biggest array
+#define num_array 5
+#define dim_array 6
+
+//menu_array to identify the correct array to show
+char* menu_array[num_array][dim_array];
+//index to match with the first element of the arrays
+//up to 5 levels
+char index[] = {"1-/-/-/-/"};
+//dim of the index, change this if adding/removing levels in index
+int index_dim = 9;
+
+void addArray(int row, const char* array[], int dim){
+	for(int i=0; i<dim; i++){
+		menu_array[row][i] = array[i];
+	}
+
+	for(int i=dim-1; i<dim_array; i++){
+		menu_array[row][i] = "nil";
+	}
+}
+
+int getLength(char text[]){
+	int dim = index_dim;
+	int i=0;
+	while(i<dim){
+		if(text[i] == '/'){
+			break;
+		}else{
+			i++;
+		}
+	}
+	if(i == dim){
+		i = dim;
+	}else{
+		i= i-1;
+	}
+	return i;
+}
+
+int getMenuRow(char index[]){
+	int length = getLength(index);
+	int value;
+	char temp[20];
+	for(int i=0; i<num_array; i++){
+		for(int j=0; j<length; j++){
+			strcpy(temp, menu_array[i][0]);
+			if(temp[j] != index[j]){
+				break;
+			}
+		}
+		value = i;
+	}
+	return value;
+}
+
 void setup() {
 	Serial.begin(115200);
 
@@ -147,6 +205,13 @@ void setup() {
 	//set up buttons
 	ok.begin(ok_pin);
 	scroll.begin(scroll_pin);
+
+	//create menu array
+	addArray(0, level_1, 6);
+	addArray(1, level_1_1, 4);
+	addArray(2, level_1_1_1, 4);
+	addArray(3, level_1_2, 6);
+	addArray(5, level_1_3, 2);
 
 	//buzzer set up
 	pinMode(buzzer_pin, OUTPUT);
