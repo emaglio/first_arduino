@@ -20,7 +20,7 @@ const uint8_t buzzer_pin = 13;
 char* level_1[6] = {"1","Sensors", "RBG LED", "Erin", "Mani", "Doggy dog"};
 char* level_1_1[4] {"1-1","Temperature", "Light", "<- BACK"};
 char* level_1_1_1[4] {"1-1-1","ON", "OFF", "<- BACK"};
-char* level_1_2[6] {"1-2","OFF", "Blue", "Green", "Red", "<- BACK"};
+char* level_1_2[6] {"1-2","Blue", "Green", "Red", "OFF", "<- BACK"};
 char* level_1_3[2] {"1-3","<- BACK"};
 long current_ok_counter = 0;
 long current_scroll_counter = 0;
