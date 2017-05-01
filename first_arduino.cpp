@@ -9,9 +9,7 @@
 float tempVal;
 float lightVal;
 
-//these must be volatile to be used in the interrupt
-long ok_counter = 0;
-long scroll_counter = 0;
+
 //first OK pressed to start the menu
 int start_menu = 0;
 
@@ -24,20 +22,34 @@ char* level_1_1[4] {"1-1","Temperature", "Light", "<- BACK"};
 char* level_1_1_1[4] {"1-1-1","ON", "OFF", "<- BACK"};
 char* level_1_2[6] {"1-2","OFF", "Blue", "Green", "Red", "<- BACK"};
 char* level_1_3[2] {"1-3","<- BACK"};
-int level_1_counter = 0;
-int level_1_1_counter = 0;
-int level_1_2_counter = 0;
-bool level_2 = false;
-int current_ok_counter = 0;
-int current_scroll_counter = 0;
+long current_ok_counter = 0;
+long current_scroll_counter = 0;
+long ok_counter = 0;
+long scroll_counter = 0;
 int ok_result = 0;
 int scroll_result = 0;
-
 int size_array;
 
 //button pins configuration
 #define ok_pin 18
 #define scroll_pin 19
+
+//dim of menu_array
+// num_array --> number of arrays
+// dim_array --> biggest array
+#define num_array 5
+#define dim_array 6
+
+//menu_array to identify the correct array to show
+char* menu_array[num_array][dim_array];
+//index to match with the first element of the arrays
+//up to 5 levels
+char index[] = {"1-/-/-/-/"};
+//dim of the index, change this if adding/removing levels in index
+int index_dim = 9;
+//used to get the correct array
+int remainder = 0;
+int menu_array_row = 0;
 
 //libraries
 TempAndLight sensors(0,1);
@@ -58,18 +70,44 @@ void ok_event(){
 
 void ok_double(){
 	ok_counter += 2;
+	remainder = 0;
 }
 
 void scroll_event(){
 	scroll_counter += 1;
 }
 
-void write_to_lcd(char* array[], int size_array, int offset){
+int getSizeArray(){
+	int i = 1;
+	while(i < dim_array){
+		const char* temp = menu_array[menu_array_row][i];
+		if(temp == "nil"){
+			break;
+		}else{
+			i++;
+		}
+	}
+
+	if(i < dim_array){
+		i++;
+	}
+	return i;
+}
+
+void write_to_lcd(int offset){
 	lcd.clean();
 
-	int remainder, index_first_line, index_second_line;
+	int index_first_line, index_second_line;
+
+	size_array = getSizeArray();
 
 	remainder = offset % size_array;
+
+	// get the array from menu_array
+	const char* array[dim_array];
+	for(int i = 1; i < dim_array; i++){
+		array[i-1] = menu_array[menu_array_row][i];
+	}
 
 	//set the pointer "<-"
 	if(offset == 0){
@@ -87,7 +125,7 @@ void write_to_lcd(char* array[], int size_array, int offset){
 		index_first_line = 0;
 		index_second_line = 1;
 	}else{
-		index_first_line = remainder - 1;
+		index_first_line = remainder -1;
 		index_second_line = index_first_line + 1;
 	}
 
@@ -106,13 +144,15 @@ void write_to_lcd(char* array[], int size_array, int offset){
 	lcd.setCursor(3,0);
 	lcd.print(array[index_first_line]);
 
-	//second line
-	lcd.setCursor(0,1);
-	lcd.print(index_second_line);
-	lcd.setCursor(1,1);
-	lcd.print(")");
-	lcd.setCursor(3,1);
-	lcd.print(array[index_second_line]);
+	if(size_array > 2){
+		//second line
+		lcd.setCursor(0,1);
+		lcd.print(index_second_line);
+		lcd.setCursor(1,1);
+		lcd.print(")");
+		lcd.setCursor(3,1);
+		lcd.print(array[index_second_line]);
+	}
 }
 
 void ok_control(){
@@ -120,10 +160,19 @@ void ok_control(){
 
 	if(ok_result == 1){
 		ok_event();
+		// update index
+		nextLevel(remainder);
+		// reset write-lcd-index = remainder
+		remainder = 0;
+		// find new menu array row
+		getMenuRow();
 	}
 
 	if(ok_result == 2){
 		ok_double();
+		backLevel();
+		remainder = 0;
+		getMenuRow();
 	}
 }
 
@@ -135,21 +184,7 @@ void scroll_control(){
 	}
 }
 
-//dim of menu_array
-// num_array --> number of arrays
-// dim_array --> biggest array
-#define num_array 5
-#define dim_array 6
-
-//menu_array to identify the correct array to show
-char* menu_array[num_array][dim_array];
-//index to match with the first element of the arrays
-//up to 5 levels
-char index[] = {"1-/-/-/-/"};
-//dim of the index, change this if adding/removing levels in index
-int index_dim = 9;
-
-void addArray(int row, const char* array[], int dim){
+void addArray(int row, char* array[], int dim){
 	for(int i=0; i<dim; i++){
 		menu_array[row][i] = array[i];
 	}
@@ -177,7 +212,8 @@ int getLength(char text[]){
 	return i;
 }
 
-int getMenuRow(char index[]){
+//find correct array in base on index value in menu_array
+void getMenuRow(){
 	int length = getLength(index);
 	int value;
 	char temp[20];
@@ -190,7 +226,44 @@ int getMenuRow(char index[]){
 		}
 		value = i;
 	}
-	return value;
+	menu_array_row = value;
+}
+
+//replace / with num to create the correct index
+void nextLevel(int num){
+	int i = 0;
+	while(i<index_dim){
+		if(index[i] == '/'){
+			break;
+		}else{
+			i++;
+		}
+	}
+	char char_num = '0' + num;
+	if(i < index_dim){
+		index[i] = char_num;
+	}
+}
+
+// replace last number with / to go back in the menu
+void backLevel(){
+	int i = 0;
+	while(i<index_dim){
+		if(index[i] == '/'){
+			break;
+		}else{
+			i++;
+		}
+	}
+
+	if(i == index_dim){
+		index[i-1] = '/';
+	}else{
+		if(i < index_dim and i > 2){
+			index[i-2] = '/';
+		}
+	}
+
 }
 
 void setup() {
@@ -224,8 +297,6 @@ void setup() {
 	delay(4000);
 	lcd.clean();
 	delay(1000);
-
-	Serial.print(ok_counter);
 }
 
 void loop() {
@@ -241,21 +312,16 @@ void loop() {
 		lcd.setCursor(0,1);
 		lcd.print("continue...");
 	}else{
-		size_array = (sizeof(level_1)/sizeof(char))/2;
-		write_to_lcd(level_1, size_array, 0);
+		write_to_lcd(0);
 		while(true){
 			//Here all the code for the menu
 			ok_control();
 			scroll_control();
-			//scroll event
-			if(current_scroll_counter != scroll_counter){
-				size_array = (sizeof(level_1)/sizeof(char))/2;
-				write_to_lcd(level_1, size_array, current_scroll_counter+1);
+			//one of the button has been pressed
+			if(current_scroll_counter != scroll_counter or current_ok_counter != ok_counter){
+				write_to_lcd(current_scroll_counter+1);
 				current_scroll_counter = scroll_counter;
-			}
-
-			if(current_ok_counter != ok_counter){
-
+				current_ok_counter = ok_counter;
 			}
 		}
 	}
