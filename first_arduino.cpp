@@ -155,45 +155,6 @@ void write_to_lcd(int offset){
 	}
 }
 
-void ok_control(){
-	ok_result = ok.checkButton();
-
-	if(ok_result == 1){
-		ok_event();
-		// update index
-		nextLevel(remainder);
-		// reset write-lcd-index = remainder
-		remainder = 0;
-		// find new menu array row
-		getMenuRow();
-	}
-
-	if(ok_result == 2){
-		ok_double();
-		backLevel();
-		remainder = 0;
-		getMenuRow();
-	}
-}
-
-void scroll_control(){
-	scroll_result = scroll.checkButton();
-
-	if(scroll_result == 1){
-		scroll_event();
-	}
-}
-
-void addArray(int row, char* array[], int dim){
-	for(int i=0; i<dim; i++){
-		menu_array[row][i] = array[i];
-	}
-
-	for(int i=dim-1; i<dim_array; i++){
-		menu_array[row][i] = "nil";
-	}
-}
-
 int getLength(char text[]){
 	int dim = index_dim;
 	int i=0;
@@ -266,6 +227,47 @@ void backLevel(){
 
 }
 
+void ok_control(){
+	ok_result = ok.checkButton();
+
+	if(ok_result == 1){
+		ok_event();
+		// update index
+		nextLevel(remainder);
+		// reset write-lcd-index = remainder
+		remainder = 0;
+		// find new menu array row
+		getMenuRow();
+	}
+
+	if(ok_result == 2){
+		ok_double();
+		backLevel();
+		remainder = 0;
+		getMenuRow();
+	}
+}
+
+void scroll_control(){
+	scroll_result = scroll.checkButton();
+
+	if(scroll_result == 1){
+		scroll_event();
+	}
+}
+
+void addArray(int row, char* array[], int dim){
+	for(int i=0; i<dim; i++){
+		menu_array[row][i] = array[i];
+	}
+
+	for(int i=dim-1; i<dim_array; i++){
+		menu_array[row][i] = "nil";
+	}
+}
+
+
+
 void setup() {
 	Serial.begin(115200);
 
@@ -319,7 +321,7 @@ void loop() {
 			scroll_control();
 			//one of the button has been pressed
 			if(current_scroll_counter != scroll_counter or current_ok_counter != ok_counter){
-				write_to_lcd(current_scroll_counter+1);
+				write_to_lcd(current_scroll_counter);
 				current_scroll_counter = scroll_counter;
 				current_ok_counter = ok_counter;
 			}
