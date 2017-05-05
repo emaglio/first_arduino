@@ -9,19 +9,14 @@
 float tempVal;
 float lightVal;
 
-
-//first OK pressed to start the menu
-int start_menu = 0;
-
 //buzzer pin
 const uint8_t buzzer_pin = 13;
 
 //Menu
-char* level_1[6] = {"1","Sensors", "RBG LED", "Erin", "Mani", "Doggy dog"};
+char* level_1[3] = {"1","Sensors", "RBG LED"};
 char* level_1_1[4] {"1-1","Temperature", "Light", "<- BACK"};
 char* level_1_1_1[4] {"1-1-1","ON", "OFF", "<- BACK"};
 char* level_1_2[6] {"1-2","Blue", "Green", "Red", "OFF", "<- BACK"};
-char* level_1_3[2] {"1-3","<- BACK"};
 long current_ok_counter = 0;
 long current_scroll_counter = 0;
 long ok_counter = 0;
@@ -37,7 +32,7 @@ int size_array;
 //dim of menu_array
 // num_array --> number of arrays
 // dim_array --> biggest array
-#define num_array 5
+#define num_array 4
 #define dim_array 6
 
 //menu_array to identify the correct array to show
@@ -104,9 +99,10 @@ void write_to_lcd(int offset){
 	remainder = offset % size_array;
 
 	// get the array from menu_array
-	const char* array[dim_array];
-	for(int i = 1; i < dim_array; i++){
-		array[i-1] = menu_array[menu_array_row][i];
+	// without the first element which is the index
+	const char* array[size_array-1];
+	for(int i = 0; i < (size_array-1); i++){
+		array[i] = menu_array[menu_array_row][i+1];
 	}
 
 	//set the pointer "<-"
@@ -125,7 +121,7 @@ void write_to_lcd(int offset){
 		index_first_line = 0;
 		index_second_line = 1;
 	}else{
-		index_first_line = remainder -1;
+		index_first_line = remainder-1;
 		index_second_line = index_first_line + 1;
 	}
 
@@ -193,6 +189,7 @@ void getMenuRow(){
 //replace / with num to create the correct index
 void nextLevel(int num){
 	int i = 0;
+	// find the first / available
 	while(i<index_dim){
 		if(index[i] == '/'){
 			break;
@@ -200,6 +197,8 @@ void nextLevel(int num){
 			i++;
 		}
 	}
+
+	// int to char and set the new char_num in the correct position
 	char char_num = '0' + num;
 	if(i < index_dim){
 		index[i] = char_num;
@@ -232,8 +231,8 @@ void ok_control(){
 
 	if(ok_result == 1){
 		ok_event();
-		// update index
-		nextLevel(remainder);
+		// update index using reminder + 1 because the index starts from 1 not 0 as the array
+		nextLevel(remainder+1);
 		// reset write-lcd-index = remainder
 		remainder = 0;
 		// find new menu array row
@@ -282,11 +281,10 @@ void setup() {
 	scroll.begin(scroll_pin);
 
 	//create menu array
-	addArray(0, level_1, 6);
+	addArray(0, level_1, 3);
 	addArray(1, level_1_1, 4);
 	addArray(2, level_1_1_1, 4);
 	addArray(3, level_1_2, 6);
-	addArray(5, level_1_3, 2);
 
 	//buzzer set up
 	pinMode(buzzer_pin, OUTPUT);
@@ -302,13 +300,9 @@ void setup() {
 }
 
 void loop() {
-	ok_result = ok.checkButton();
-
-	if(ok_result == 1){
-		ok_event();
-	}
-
-	if(start_menu == 0 and ok_counter == 0){
+	ok_control();
+	// wait for the first OK click
+	if(ok_counter == 0){
 		lcd.setCursor(0,0);
 		lcd.print("Click OK to");
 		lcd.setCursor(0,1);
@@ -316,6 +310,8 @@ void loop() {
 	}else{
 		write_to_lcd(0);
 		while(true){
+			// TODO: need to understand what happen to index
+			Serial.print(index);
 			//Here all the code for the menu
 			ok_control();
 			scroll_control();
